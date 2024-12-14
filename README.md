@@ -4,16 +4,10 @@
 К проекту таже приложены uni-тесты: запуск осуществляется с помощью команды ```go test```
 ---
 
-### Необходимо создать таблицу в базе данных PostgreSQL
+### Реализовано подключение к Docker и сборка базы данных с помощью docker-compose.yml:
 
 ```
-CREATE TABLE refresh_tokens (
-    id SERIAL PRIMARY KEY,
-    user_id UUID NOT NULL,
-    refresh_token_hash TEXT NOT NULL,
-    client_ip TEXT NOT NULL,
-    created_at TIMESTAMP NOT NULL
-);
+docker-compose up --build
 ```
 
 ### **1. Импорты**
