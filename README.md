@@ -176,7 +176,7 @@ curl -X POST http://localhost:8080/api/auth/token \
 2. **Для обновления Access Token:**
    Выполните запрос на `/api/auth/refresh`, передав `user_id` и `refresh_token`.
 
-Пример CURL-запроса:
+Пример CURL-запроса, `важная заметка refresh_token каждый раз уникальный`:
 ```bash
 curl -X POST http://localhost:8080/api/auth/refresh \
 -H "Content-Type: application/json" \

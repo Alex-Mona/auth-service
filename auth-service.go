@@ -70,7 +70,7 @@ func GenerateAccessToken(userID, clientIP string) (string, error) {
 
 // Генерация Refresh токена (случайные данные с хешированием SHA512)
 func GenerateRefreshToken() (string, error) {
-	raw := make([]byte, 64)
+	raw := make([]byte, 32)
 	_, err := rand.Read(raw) // Используйте rand для генерации случайных данных
 	if err != nil {
 		return "", err
@@ -85,6 +85,7 @@ func StoreRefreshToken(userID, token, clientIP string) error {
 	trimmedToken := token[:72]
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(trimmedToken), bcrypt.DefaultCost)
+
 	if err != nil {
 		log.Printf("Error hashing refresh token: %v", err)
 		return err
@@ -116,6 +117,7 @@ func VerifyRefreshToken(userID, token, clientIP string) (bool, error) {
 	if err := bcrypt.CompareHashAndPassword([]byte(entry.RefreshTokenHash), []byte(token)); err != nil {
 		return false, errors.New("invalid refresh token")
 	}
+
 	// Проверка изменения IP-адреса
 	if entry.ClientIP != clientIP {
 		// Mock email пример логики предупреждения об изменении IP

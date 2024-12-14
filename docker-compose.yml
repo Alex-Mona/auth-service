@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:14
+    container_name: auth-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Скрипт для создания таблицы
+
+  app:
+    build: .
+    container_name: auth-app
+    environment:
+      DB_CONN: "postgres://postgres:postgres@db:5432/postgres?sslmode=disable"
+      JWT_SECRET: "supersecret"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+volumes:
+  db-data:
